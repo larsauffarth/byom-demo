@@ -1,0 +1,159 @@
+<head>
+  <meta charset="utf-8">
+  <title>{{user.fullName}} - User Profile</title>
+  <meta name="description" content="User profile for {{user.fullName}} from {{user.city}}, {{user.country}}. Member since {{user.registered}}.">
+  <meta name="author" content="{{user.fullName}}">
+  <meta name="timestamp" content="{{user.timestamp}}">
+  <meta name="nationality" content="{{user.nationality_header}}">
+  <!-- User Profile Metadata for Indexing -->
+  <meta name="user-id" content="{{user.uuid}}">
+  <meta name="user-username" content="{{user.username}}">
+  <meta name="user-email" content="{{user.email}}">
+  <meta name="user-fullname" content="{{user.fullName}}">
+  <meta name="user-city" content="{{user.city}}">
+  <meta name="user-state" content="{{user.state}}">
+  <meta name="user-country" content="{{user.country}}">
+  <meta name="user-postcode" content="{{user.postcode}}">
+  <meta name="user-nationality" content="{{user.nationality}}">
+  <meta name="user-gender" content="{{user.gender}}">
+  <meta name="user-age" content="{{user.age}}">
+  <meta name="user-registered" content="{{user.registered}}">
+  <meta name="user-timezone" content="{{user.timezone}}">
+  <meta name="user-picture" content="{{user.picture}}">
+  
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="profile">
+  <meta property="og:title" content="{{user.fullName}} - User Profile">
+  <meta property="og:description" content="User profile for {{user.fullName}} from {{user.city}}, {{user.country}}">
+  <meta property="og:image" content="{{user.picture}}">
+  <meta property="profile:username" content="{{user.username}}">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{{user.fullName}} - User Profile">
+  <meta name="twitter:description" content="User profile for {{user.fullName}}">
+  <meta name="twitter:image" content="{{user.picture}}">
+</head>
+
+<body>
+  <header></header>
+  <main>
+    <div>
+      <div class="hero">
+        <div>
+          <div>
+            <h1>{{user.fullName}}</h1>
+          </div>
+          <div>
+            <picture>
+              <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=80" alt="Professional team collaboration">
+            </picture>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h2>User Management Dashboard</h2>
+        <p>Welcome to the user profile overview. This page demonstrates how AEM blocks combine with dynamic data to create rich, interactive experiences. Below you'll find detailed information about this user's account, location, and contact details.</p>
+      </div>
+      <div class="user-profile">
+        <div>
+          <div class="user-profile-container">
+            <div class="profile-header">
+              <div class="profile-picture">
+                <picture>
+                  <img src="{{user.picture}}" alt="{{user.fullName}}">
+                </picture>
+              </div>
+              <div>
+                <h2 class="profile-name">{{user.fullName}}</h2>
+                <p class="profile-username">@{{user.username}}</p>
+              </div>
+            </div>
+            <div class="profile-details">
+              <div class="detail-section">
+                <h3>Contact Information</h3>
+                <div class="detail-item">
+                  <span class="detail-label">Email:</span>
+                  <span class="detail-value"><a href="mailto:{{user.email}}">{{user.email}}</a></span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Phone:</span>
+                  <span class="detail-value">{{user.phone}}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Mobile:</span>
+                  <span class="detail-value">{{user.cell}}</span>
+                </div>
+              </div>
+              <div class="detail-section">
+                <h3>Location</h3>
+                <div class="detail-item">
+                  <span class="detail-label">Address:</span>
+                  <span class="detail-value">{{user.address}}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">City:</span>
+                  <span class="detail-value">{{user.city}}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">State:</span>
+                  <span class="detail-value">{{user.state}}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Country:</span>
+                  <span class="detail-value">{{user.country}}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Postcode:</span>
+                  <span class="detail-value">{{user.postcode}}</span>
+                </div>
+              </div>
+              <div class="detail-section">
+                <h3>Account Information</h3>
+                <div class="detail-item">
+                  <span class="detail-label">Gender:</span>
+                  <span class="detail-value">{{user.gender}}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Age:</span>
+                  <span class="detail-value">{{user.age}} years</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Date of Birth:</span>
+                  <span class="detail-value">{{user.dob}}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Member Since:</span>
+                  <span class="detail-value">{{user.registered}}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Nationality:</span>
+                  <span class="detail-value">{{user.nationality}}</span>
+                </div>
+              </div>
+              <div class="detail-section">
+                <h3>Identification</h3>
+                <div class="detail-item">
+                  <span class="detail-label">User ID:</span>
+                  <span class="detail-value">{{user.uuid}}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">{{user.idName}}:</span>
+                  <span class="detail-value">{{user.idValue}}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Timezone:</span>
+                  <span class="detail-value">{{user.timezone}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer></footer>
+</body>
+
+</html>
+

@@ -1,0 +1,31 @@
+application:
+  actions: actions
+  web: web-src
+  runtimeManifest:
+    packages:
+      byom-actions:
+        license: Apache-2.0
+        actions:
+          webhook:
+            function: actions/webhook/index.js
+            web: 'raw'
+            runtime: nodejs:22
+            inputs:
+              LOG_LEVEL: debug
+              PROJECT_COORDS: $PROJECT_COORDS
+              TOKEN: $TOKEN
+              NATIONALITY: $NATIONALITY
+            annotations:
+              require-adobe-auth: false
+              final: true
+          data-provider:
+            function: actions/data-provider/index.js
+            web: 'raw'
+            runtime: nodejs:22
+            inputs:
+              LOG_LEVEL: debug
+            annotations:
+              require-adobe-auth: false
+              final: true
+            include:
+              - ["actions/data-provider/templates/*.html", "templates/"]

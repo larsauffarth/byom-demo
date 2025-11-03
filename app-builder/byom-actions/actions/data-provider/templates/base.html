@@ -1,0 +1,45 @@
+<head>
+  <meta charset="utf-8">
+  <title>TEST PAGE</title>
+</head>
+
+<body>
+  <header></header>
+  <main>
+    <div>
+      <div class="hero">
+        <div>
+          <div>
+            <h1>{{hero.title}}</h1>
+          </div>
+          <div>
+            <picture>
+              <img src="{{hero.image}}" alt="{{hero.title}}">
+            </picture>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p>{{content.text}}</p>
+      </div>
+      <div class="carousel">
+        {{#each carousel.slides}}
+        <div>
+          <div>
+            <picture>
+              <img src="{{this.image}}" alt="{{this.title}}">
+            </picture>
+          </div>
+          <div>
+            <h2>{{this.title}}</h2>
+            <p>{{this.description}}</p>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </main>
+  <footer></footer>
+</body>
+
+</html>
