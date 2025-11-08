@@ -3,7 +3,41 @@
 */
 
 /**
- * Webhook action that demonstrates a simple preview → publish pipeline for Helix projects.
+ * Action: Webhook
+ * Purpose: Orchestrates an automated preview → publish pipeline for Helix projects (Edge Delivery Services).
+ *
+ * How it works (high level):
+ * 1) This action is invoked by an external webhook (e.g., via HTTP POST).
+ * 2) It generates a unique overlay path (e.g., `/byom-page/1731000000000`) and calls the Helix Admin API to preview
+ *    that path. The request includes an admin token and optional metadata such as a nationality filter.
+ * 3) The Helix Admin API, when resolving content for that overlay path, invokes the "data-provider" action in this
+ *    repository (see `actions/data-provider/index.js`). That action returns HTML built from `templates/user-profile.html`.
+ * 4) If preview succeeds, this action triggers a live publish for the same path, finalizing the page.
+ *
+ * Why the overlay path?
+ * - Paths under `/byom-page/*` are treated as dynamic/overlay content resolved by the data provider action.
+ *   This keeps the demo isolated and makes every run produce a fresh page URL.
+ *
+ * Inputs (params and env):
+ * - PROJECT_COORDS (string, required): Helix project coordinates `owner/repo/ref`.
+ *   - Can be provided as an action parameter or via environment variable.
+ * - TOKEN (string, required): Helix admin API token.
+ *   - Can be provided as an action parameter or via environment variable.
+ * - NATIONALITY (string, optional): Nationality code(s) for the Random User API (e.g., `US`, `GB`, `US,GB,FR`).
+ *   - May be passed in the JSON body, or as a query parameter; it will be forwarded to the data provider as a header.
+ *
+ * Output:
+ * - JSON with a summary of preview attempts, publish result, and the generated page path.
+ *
+ * Example invocation (JSON body):
+ *   curl -X POST "https://<runtime-host>/api/v1/web/<ns>/<pkg>/webhook" \
+ *     -H "Content-Type: application/json" \
+ *     -H "Authorization: Bearer <your_aio_token_if_required>" \
+ *     -d '{
+ *           "PROJECT_COORDS":"<owner>/<repo>/<ref>",
+ *           "TOKEN":"<helix_admin_token>",
+ *           "NATIONALITY":"US"
+ *         }'
  *
  * The code intentionally contains verbose comments to make the control flow easy to follow for demo purposes.
  */
@@ -27,7 +61,7 @@ async function main(params) {
 
   try {
     logger.info("Invoked webhook action")
-    
+
     // Parse request body if present (for POST requests with JSON payload)
     let bodyParams = {}
     if (params.__ow_body) {
@@ -44,13 +78,11 @@ async function main(params) {
     // Resolve essential configuration, falling back to environment variables to keep the example flexible.
     const projectCoords = params.PROJECT_COORDS || process.env.PROJECT_COORDS
     const token = params.TOKEN || process.env.TOKEN
-    
+
     // Get nationality from body params first, then URL params, check both uppercase and lowercase
     const nationality = bodyParams.NATIONALITY || bodyParams.nationality || params.NATIONALITY || params.nationality
     logger.debug('Nationality value:', nationality)
 
-    // Every invocation publishes a fresh page, so we derive a unique path using the current timestamp.
-    const pagePath = generatePagePath()
 
     // Collect any configuration gaps before attempting network calls.
     const missingFields = []
@@ -59,11 +91,14 @@ async function main(params) {
     if (missingFields.length > 0) {
       return errorResponse(400, `missing parameter(s) '${missingFields.join(', ')}'`, logger)
     }
+    
+    // Every invocation publishes a fresh page, so we derive a unique path using the current timestamp.
+    const pagePath = generatePagePath()
 
     let previewSuccessful = false
     const previewAttempts = []
 
-    // Preview is retried a few times because upstream builds can be eventually consistent.
+    // Preview is retried three times.
     for (let attempt = 0; attempt < MAX_PREVIEW_ATTEMPTS; attempt++) {
       const attemptNumber = attempt + 1
       const result = await processEvent(token, 'preview', projectCoords, pagePath, 'publish', nationality, logger)
@@ -124,7 +159,7 @@ function generatePagePath() {
  * @param {string} token - Helix admin token.
  * @param {'preview'|'live'} uriEnv - Target environment.
  * @param {string} projectCoords - Helix project coordinates.
- * @param {string} path - Fragment path to publish.
+ * @param {string} path - Path to run this action against.
  * @param {'publish'|'delete'} action - Desired action.
  * @param {string} [nationality] - Optional nationality code(s) to pass to data provider.
  * @param {Object} logger - Structured logger instance.

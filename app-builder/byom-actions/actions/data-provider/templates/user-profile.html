@@ -1,7 +1,8 @@
 <head>
   <meta charset="utf-8">
   <title>{{user.fullName}} - User Profile</title>
-  <meta name="description" content="User profile for {{user.fullName}} from {{user.city}}, {{user.country}}. Member since {{user.registered}}.">
+  <meta name="description"
+    content="User profile for {{user.fullName}} from {{user.city}}, {{user.country}}. Member since {{user.registered}}.">
   <meta name="author" content="{{user.fullName}}">
   <meta name="timestamp" content="{{user.timestamp}}">
   <meta name="nationality" content="{{user.nationality_header}}">
@@ -20,14 +21,14 @@
   <meta name="user-registered" content="{{user.registered}}">
   <meta name="user-timezone" content="{{user.timezone}}">
   <meta name="user-picture" content="{{user.picture}}">
-  
+
   <!-- Open Graph / Social Media -->
   <meta property="og:type" content="profile">
   <meta property="og:title" content="{{user.fullName}} - User Profile">
   <meta property="og:description" content="User profile for {{user.fullName}} from {{user.city}}, {{user.country}}">
   <meta property="og:image" content="{{user.picture}}">
   <meta property="profile:username" content="{{user.username}}">
-  
+
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="{{user.fullName}} - User Profile">
@@ -46,14 +47,17 @@
           </div>
           <div>
             <picture>
-              <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=80" alt="Professional team collaboration">
+              <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=80"
+                alt="Professional team collaboration">
             </picture>
           </div>
         </div>
       </div>
       <div>
         <h2>User Management Dashboard</h2>
-        <p>Welcome to the user profile overview. This page demonstrates how AEM blocks combine with dynamic data to create rich, interactive experiences. Below you'll find detailed information about this user's account, location, and contact details.</p>
+        <p>Welcome to the user profile overview. This page demonstrates how AEM blocks combine with dynamic data to
+          create rich, interactive experiences. Below you'll find detailed information about this user's account,
+          location, and contact details.</p>
       </div>
       <div class="user-profile">
         <div>
@@ -156,4 +160,3 @@
 </body>
 
 </html>
-

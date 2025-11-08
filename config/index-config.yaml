@@ -1,0 +1,36 @@
+version: 1
+indices:
+  pages:
+    include:
+      - '/byom-page/**'
+    exclude:
+      - '/**.json'
+    target: /user-index.json
+    properties:
+      lastModified:
+        select: none
+        value: parseTimestamp(headers["last-modified"], "ddd, DD MMM YYYY hh:mm:ss GMT")
+      'userEmail':
+        select: head > meta[name="user-email"]
+        value: attribute(el, "content")
+      'userFullname':
+        select: head > meta[name="user-fullname"]
+        value: attribute(el, "content")
+      'userCity':
+        select: head > meta[name="user-city"]
+        value: attribute(el, "content")
+      'userCountry':
+        select: head > meta[name="user-country"]
+        value: attribute(el, "content")
+      'userNationality':
+        select: head > meta[name="user-nationality"]
+        value: attribute(el, "content")
+      'userGender':
+        select: head > meta[name="user-gender"]
+        value: attribute(el, "content")
+      'userAge':
+        select: head > meta[name="user-age"]
+        value: attribute(el, "content")
+      'userPicture':
+        select: head > meta[name="user-picture"]
+        value: attribute(el, "content")

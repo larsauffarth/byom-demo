@@ -2,6 +2,35 @@
 * <license header>
 */
 
+/**
+ * Action: Data Provider
+ * Purpose: Generates HTML content for overlay paths under `/byom-page/*` that the Helix Admin API consumes during
+ *          preview. This action is invoked indirectly when the webhook action triggers a preview
+ *          for a newly generated `/byom-page/<timestamp>` path.
+ *
+ * How it works:
+ * - Validates that the requested `__ow_path` is an overlay path (`/byom-page/*`). If not, returns 404.
+ * - Reads the optional nationality value from the `x-content-source-location` header. This header is set by the
+ *   webhook action when calling the Helix Admin API, and is forwarded here by Helix.
+ * - Calls the Random User API (`https://randomuser.me/api/`) and, if a nationality is present, adds `?nat=<value>`.
+ * - Maps the API response to a simple data model and renders `templates/user-profile.html` using Handlebars.
+ * - Returns `text/html` with the rendered user profile. If the API call fails, returns a deterministic fallback user.
+ *
+ * Inputs:
+ * - params.__ow_path (string): Request path; must start with `/byom-page`.
+ * - params.__ow_headers['x-content-source-location'] (string, optional): Nationality filter forwarded from webhook.
+ *
+ * Output:
+ * - HTML page (Content-Type: text/html) suitable for indexing/publishing by Helix.
+ *
+ * Local/Direct testing example (deployed action URL shape may vary):
+ *   curl "https://<runtime-host>/api/v1/web/<ns>/<pkg>/data-provider/byom-page/123" \
+ *     -H "x-content-source-location: US"
+ *
+ * Related:
+ * - Orchestrating action: `actions/webhook/index.js`
+ * - Template: `actions/data-provider/templates/user-profile.html`
+ */
 const fetch = require('node-fetch')
 const { Core } = require('@adobe/aio-sdk')
 const { errorResponse } = require('../utils')

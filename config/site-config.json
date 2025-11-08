@@ -1,0 +1,24 @@
+{
+    "version": 3,
+    "code": {
+        "owner": "larsauffarth",
+        "repo": "byom-demo",
+        "source": {
+            "type": "github",
+            "url": "https://github.com/larsauffarth/byom-demo"
+        }
+    },
+    "content": {
+        "source": {
+            "url": "https://content.da.live/larsauffarth/byom-demo/",
+            "type": "markup"
+        },
+        "overlay": {
+            "url": "https://916550-byomendpoint-stage.adobeio-static.net/api/v1/web/byom-actions/data-provider",
+            "type": "markup"
+        },
+        "contentBusId": "5b93625d71b65812a1ead9e5e6ab2870a9477450579de27dc4d5d01c08d"
+    },
+    "lastModified": "2025-11-03T10:31:18.847Z",
+    "created": "2025-11-03T09:31:33.210Z"
+}
